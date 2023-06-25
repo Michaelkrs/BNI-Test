@@ -2,17 +2,19 @@
 import { mapActions, mapState } from 'pinia';
 import { useUserStore } from '../stores/store';
 
+import { RouterLink } from 'vue-router';
 export default {
-  name: 'HomePage',
+  name: "HomePage",
   computed: {
-    ...mapState(useUserStore, ['users', 'isLoading'])
+    ...mapState(useUserStore, ["users", "isLoading"])
   },
   methods: {
-    ...mapActions(useUserStore, ['getUsers'])
+    ...mapActions(useUserStore, ["getUsers", "deleteUser"])
   },
   created() {
-    this.getUsers()
-  }
+    this.getUsers();
+  },
+  components: { RouterLink }
 }
 </script>
 
@@ -35,10 +37,10 @@ export default {
             <div className="card-text">Gender: {{ user.gender }}</div>
           </div>
           <div className="card-body">
-            <Link className="btn btn-secondary">
-            Edit
-            </Link>
-            <button className="btn btn-danger ms-2">
+            <RouterLink className="btn btn-secondary" :to="`/edit/${user.id}`">
+              Edit
+            </RouterLink>
+            <button className="btn btn-danger ms-2" @click="deleteUser(user.id)">
               Delete
             </button>
           </div>
